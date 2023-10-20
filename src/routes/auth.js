@@ -4,21 +4,15 @@
 ------------------------------------------------------- */
 const router = require('express').Router()
 /* ------------------------------------------------------- */
-// routes/order:
+// routes/auth:
 
-const order = require('../controllers/order')
+const auth = require('../controllers/auth')
 
-// URL: /orders
+// URL: /auth
 
-router.route('/')
-    .get(order.list)
-    .post(order.create)
-
-router.route('/:id')
-    .get(order.read)
-    .put(order.update)
-    .patch(order.update)
-    .delete(order.delete)
+router.post('/login', auth.login)
+router.post('/refresh', auth.refresh)
+router.get('/logout', auth.logout)
 
 /* ------------------------------------------------------- */
 module.exports = router
