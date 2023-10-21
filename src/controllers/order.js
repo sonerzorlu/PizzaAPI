@@ -36,7 +36,7 @@ module.exports = {
             #swagger.tags = ["Orders"]
             #swagger.summary = "Create Order"
         */
-
+req.body.totalPrice = req.body.price * req.body.quantity 
         const data = await Order.create(req.body)
 
         res.status(201).send({
