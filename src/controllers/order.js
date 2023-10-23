@@ -22,7 +22,11 @@ module.exports = {
             `
         */
 
-        const data = await res.getModelList(Order)
+        // const data = await res.getModelList(Order,{},['userId','pizzaId','toppings'])
+        const data = await res.getModelList(Order,{},[
+            'userId',
+        {path:'pizzaId',populate:'toppings'}
+        ])
 
         res.status(200).send({
             error: false,
@@ -39,7 +43,7 @@ module.exports = {
             req.body.quantity=req.body.quantity || 1
             if(!req.body?.price){
                 const Pizza=require('../models/pizza')
-                const dataPizza=await Pizza.findOne({_id:req.body.pizzaId})
+                const dataPizza=await Pizza.findOne({_id:req.body.pizzaId},{_id:0,price:1})
                 req.body.price=dataPizza.price
             }
             req.body.totalPrice=req.body.quantity*req.body.price
