@@ -23,17 +23,34 @@ const PORT = process.env?.PORT || 8000
 require('express-async-errors')
 
 /* ------------------------------------------------------- */
-// Configrations:
+//! Configrations:
 
 // Connect to DB:
 const { dbConnection } = require('./src/configs/dbConnection')
 dbConnection()
 
 /* ------------------------------------------------------- */
-// Middlewares:
+//! Middlewares:
 
 // Accept JSON:
 app.use(express.json())
+const jwt=require('jsonwebtoken')
+//access token control:
+app.use(require('./src/middlewares/authentication')) //?40-53 arasi kodlarin aynisi
+// app.use((req, res, next) => {
+//     const auth = req.headers.authorization
+//     const accessToken = auth?.split(" ")[1] || null
+//     req.isLogin = false
+//     req.user = null
+
+//     jwt.verify(accessToken,process.nextTick.ACCESS_KEY,function (err,userData){
+//         if(userData){
+//             req.isLogin = true
+//             req.user = userData
+//         }
+//     })
+// next()
+// })
 
 // Run Logger:
 app.use(require('./src/middlewares/logger'))
@@ -42,7 +59,7 @@ app.use(require('./src/middlewares/logger'))
 app.use(require('./src/middlewares/findSearchSortPage'))
 
 /* ------------------------------------------------------- */
-// Routes:
+//! Routes:
 
 // HomePath:
 app.all('/', (req, res) => {
