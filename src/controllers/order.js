@@ -75,7 +75,7 @@ module.exports = {
    req.body.quantity=req.body.quantity || 1
             if(!req.body?.price){
                
-                const dataOrder=await Order.findOne({_id:req.params.id})
+                const dataOrder=await Order.findOne({_id:req.params.id},{_id:0,price:1})
                 req.body.price=dataOrder.price
             }
             req.body.totalPrice=req.body.quantity*req.body.price
