@@ -62,7 +62,10 @@ module.exports = {
             #swagger.summary = "Get Single Order"
         */
 
-        const data = await Order.findOne({ _id: req.params.id })
+            const data = await res.getModelList(Order,{},[
+                'userId',
+            {path:'pizzaId',populate:'toppings'}
+            ])
 
         res.status(200).send({
             error: false,
