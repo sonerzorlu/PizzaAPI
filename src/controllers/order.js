@@ -35,8 +35,15 @@ module.exports = {
         /*
             #swagger.tags = ["Orders"]
             #swagger.summary = "Create Order"
-        */
-req.body.totalPrice = req.body.price * req.body.quantity 
+        */ 
+            req.body.quantity=req.body.quantity || 1
+            if(!req.body?.price){
+                const Pizza=require('../models/pizza')
+                const dataPizza=await Pizza.findOne({_id:req.body.pizzaId})
+                req.body.price=dataPizza.price
+            }
+            req.body.totalPrice=req.body.quantity*req.body.price
+
         const data = await Order.create(req.body)
 
         res.status(201).send({
@@ -65,7 +72,13 @@ req.body.totalPrice = req.body.price * req.body.quantity
             #swagger.tags = ["Orders"]
             #swagger.summary = "Update Order"
         */
-
+   req.body.quantity=req.body.quantity || 1
+            if(!req.body?.price){
+               
+                const dataOrder=await Order.findOne({_id:req.params.id})
+                req.body.price=dataOrder.price
+            }
+            req.body.totalPrice=req.body.quantity*req.body.price
         const data = await Order.updateOne({ _id: req.params.id }, req.body)
 
         res.status(202).send({
